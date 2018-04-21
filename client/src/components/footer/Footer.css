@@ -1,0 +1,15 @@
+.logoSkyscanner {
+    width:20%;
+    height:20%;
+}
+
+h3 {
+    font-size:3rem;
+    text-align:center;
+    font-family: 'Kaushan Script', cursive;
+    font-weight:800;
+    letter-spacing: -0.23rem;
+    color:beige;
+    text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
+
+}

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -25,4 +26,116 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+
+
+.box{
+
+margin-top:3%;
+height:500px;
+}
+
+
+.left{
+position:relative;
+background-image: url("img/img1.jpg");
+z-index:1;
+background-size:cover;
+border-top-left-radius:9px;
+border-bottom-left-radius:9px;
+
+}
+
+.right{
+position:relative;
+background-image: url("img/img2.jpg");
+z-index:1;
+background-size:cover;
+border-top-right-radius:9px;
+border-bottom-right-radius:9px;
+
+}
+
+.left:hover{
+-webkit-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
+-moz-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
+box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
+
+transition: -webkit-box-shadow 3s ease-in-out;
+transition: -moz-box-shadow 1s ease-in-out;
+transition: box-shadow 1s ease-in-out;
+
+transition: -webkit-transform 1s ease-in-out;
+        -webkit-transform: translateX(-10px);
+        transform: translateX(-10px);
+
+
+}
+
+
+
+.right:hover{
+-webkit-box-shadow: -9px 9px 22px 0px rgba(0,0,0,0.52);
+-moz-box-shadow: -9px 9px 22px 0px rgba(0,0,0,0.52);
+box-shadow: -9px 9px 22px 0px rgba(0,0,0,0.52);
+transition: -webkit-box-shadow 3s ease-in-out;
+transition: -moz-box-shadow 1s ease-in-out;
+transition: box-shadow 1s ease-in-out;
+
+transition-delay: -webkit-box-shadow 3s;
+transition-delay: -moz-box-shadow 3s;
+transition-delay: box-shadow 3s;
+
+
+transition: -webkit-transform 1s ease-in-out;
+
+        -webkit-transform: translateX(-10px);
+        transform: translateX(+10px);
+}
+
+@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);
+
+
+h1 {
+font-size:9rem;
+font-family: 'Kaushan Script', cursive;
+font-weight:800;
+letter-spacing: -0.75rem;
+color:beige;
+text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
+
+}
+
+h1 span{
+mix-blend-mode:multiply;
+
+}
+
+
+
+h2 {
+margin-top:31%;
+font-size:4rem;
+font-family: 'Kaushan Script', cursive;
+font-weight:800;
+letter-spacing: -0.5rem;
+color:beige;
+text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
+}
+
+h3 {
+font-size:3rem;
+text-align:center;
+font-family: 'Kaushan Script', cursive;
+font-weight:800;
+letter-spacing: -0.23rem;
+color:beige;
+text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
+}
+
+
+.logoSkyscanner {
+width:20%;
+height:20%;
 }
