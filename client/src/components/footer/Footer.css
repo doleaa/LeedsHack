@@ -1,15 +1,15 @@
-.logoSkyscanner {
+.logoSlsk {
     width:20%;
     height:20%;
 }
 
 h3 {
-    font-size:3rem;
-    text-align:center;
-    font-family: 'Kaushan Script', cursive;
+    font-size:1.5rem;
+    text-align:left;
+    font-family: 'Do Hyeo', sans-serif;
     font-weight:800;
     letter-spacing: -0.23rem;
-    color:beige;
+    color: #222222;
     text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
 
 }

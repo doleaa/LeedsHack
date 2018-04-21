@@ -39,7 +39,7 @@ height:500px;
 
 .left{
 position:relative;
-background-image: url("img/img1.jpg");
+background-image: url("img/record.jpg");
 z-index:1;
 background-size:cover;
 border-top-left-radius:9px;
@@ -49,7 +49,7 @@ border-bottom-left-radius:9px;
 
 .right{
 position:relative;
-background-image: url("img/img2.jpg");
+background-image: url("img/record.jpg");
 z-index:1;
 background-size:cover;
 border-top-right-radius:9px;
@@ -94,15 +94,15 @@ transition: -webkit-transform 1s ease-in-out;
         transform: translateX(+10px);
 }
 
-@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);
+@import url(https://fonts.googleapis.com/css?family=Do+Hyeon);
 
 
 h1 {
-font-size:9rem;
-font-family: 'Kaushan Script', cursive;
+font-size:9px;
+font-family: 'Do Hyeon', sans-serif;
 font-weight:800;
 letter-spacing: -0.75rem;
-color:beige;
+color:#4894FA;
 text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
 
 }
@@ -117,7 +117,7 @@ mix-blend-mode:multiply;
 h2 {
 margin-top:31%;
 font-size:4rem;
-font-family: 'Kaushan Script', cursive;
+font-family: 'Do Hyeon', sans-serif;
 font-weight:800;
 letter-spacing: -0.5rem;
 color:beige;
@@ -127,7 +127,7 @@ text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
 h3 {
 font-size:3rem;
 text-align:center;
-font-family: 'Kaushan Script', cursive;
+font-family: 'Do Hyeon', sans-serif;
 font-weight:800;
 letter-spacing: -0.23rem;
 color:beige;
@@ -135,7 +135,6 @@ text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
 }
 
 
-.logoSkyscanner {
-width:20%;
-height:20%;
+.logoSlsk {
+width:100%;
 }

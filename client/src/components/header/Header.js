@@ -1,30 +1,24 @@
 import React from 'react'
 import './Header.css'
-import { goHome, setGroupType, setResponse } from './../../actions'
+import { pingServer } from './../../actions'
 import { connect } from 'react-redux'
+import logoSlsk from '../../img/logo.svg'
 
 const mapDispatchToProps = dispatch => {
     return {
-        goHome: () => {
-            dispatch(goHome())
-        },
-        setGroupType: groupType => {
-            dispatch(setGroupType(groupType))
-        },
-        setResponse: response => {
-            dispatch(setResponse(response))
+        pingServer: () => {
+            dispatch(pingServer("troliator96", "troliator96"))
         }
     }
 }
 
-const DisconnectedHeader = ({ goHome, setGroupType, setResponse }) => (
+const DisconnectedHeader = ({ pingServer }) => (
     <div className="row">
-        <div className="col-md-10">
-            <h1 onClick={() => {goHome(); setGroupType(""); setResponse("")}}>TravelMate</h1>
-        </div>
-
-        <div className="col-md-2">
-            <h2>About  Us</h2>
+        <div className="col-md-12">
+            <h1 onClick={() => {pingServer()}}>
+                <img className="logoSlsk" src={logoSlsk} alt="Powered by SoulSeek"/>
+                Nuseek
+            </h1>
         </div>
     </div>
 )
