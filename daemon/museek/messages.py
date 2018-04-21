@@ -78,6 +78,10 @@ class BaseMessage:
         return struct.pack("<I", i)
 
     @staticmethod
+    def pack_int(i):
+        return struct.pack("<I", i)
+
+    @staticmethod
     def pack_off(i):
         return struct.pack("<Q", i)
 
