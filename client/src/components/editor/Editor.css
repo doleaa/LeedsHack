@@ -1,0 +1,14 @@
+textarea {
+    width: 100%;
+    outline: 0;
+    padding: 9px;
+    border: initial solid;
+    border-width: 3px;
+    border-radius: 18px;
+    resize: vertical;
+}
+
+textarea:focus {
+    border-color: blue;
+}
+

@@ -1,3 +1,17 @@
+export const setLoginUserName = userName => {
+    return {
+        type: "SET_LOGIN_USER_NAME",
+        userName
+    }
+}
+
+export const setLoginPassword = password => {
+    return {
+        type: "SET_LOGIN_PASSWORD",
+        password
+    }
+}
+
 export const setCreds = creds => {
     return {
         type: "SET_CREDS",
@@ -38,7 +52,7 @@ export const pingServer = (userName, password) => {
 
 export const searchSong = (userName, password, songSearchString) => {
     return dispatch => {
-        let url = new URL(`http://127.0.0.1:3030/ping/${songSearchString}`)
+        let url = new URL(`http://127.0.0.1:3030/songs/${songSearchString}`)
         const params = {
             usr: userName,
             pwd: password
@@ -62,7 +76,7 @@ export const searchSong = (userName, password, songSearchString) => {
 
 export const downloadSong = (userName, password, songObj) => {
     return dispatch => {
-        let url = new URL(`http://127.0.0.1:3030/ping/${songSearchString}`)
+        let url = new URL("http://127.0.0.1:3030/download")
         const params = {
             usr: userName,
             pwd: password
