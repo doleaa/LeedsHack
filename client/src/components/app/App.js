@@ -7,12 +7,11 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = state => {
     return {
-        searchType: state.searchType,
-        response: state.response
+        creds: state.creds
     }
 };
 
-const DisconnectedApp = ({ searchType, response }) => {
+const DisconnectedApp = ({ creds }) => {
     return (
         <div className="container">
 

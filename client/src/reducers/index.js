@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import response from './response'
+import creds from './creds'
 
-const ourApp = combineReducers({ response })
+const ourApp = combineReducers({ creds })
 
 export default ourApp
