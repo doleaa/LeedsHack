@@ -5,6 +5,13 @@ export const setCreds = creds => {
     }
 }
 
+export const interpretSearchResult = result => {
+    return {
+        type: "INTERPRET_SEARCH_RESULT",
+        result
+    }
+}
+
 export const pingServer = (userName, password) => {
     return dispatch => {
         let url = new URL("http://127.0.0.1:3030/ping")
@@ -23,6 +30,55 @@ export const pingServer = (userName, password) => {
         })
         .then( json => {
             dispatch(setCreds({user: userName, pwd: password}))
+        }).catch(error =>
+            console.log(error)
+        )
+    }
+}
+
+export const searchSong = (userName, password, songSearchString) => {
+    return dispatch => {
+        let url = new URL(`http://127.0.0.1:3030/ping/${songSearchString}`)
+        const params = {
+            usr: userName,
+            pwd: password
+        }
+        Object.keys(params).forEach(key => url.searchParams.append(key, encodeURI(params[key])))
+
+        fetch(url)
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json()
+        })
+        .then( json => {
+            dispatch(interpretSearchResult(json))
+        }).catch(error =>
+            console.log(error)
+        )
+    }
+}
+
+export const downloadSong = (userName, password, songObj) => {
+    return dispatch => {
+        let url = new URL(`http://127.0.0.1:3030/ping/${songSearchString}`)
+        const params = {
+            usr: userName,
+            pwd: password
+        }
+        Object.keys(params).forEach(key => url.searchParams.append(key, encodeURI(params[key])))
+        Object.keys(songObj).forEach(key => url.searchParams.append(key, encodeURI(songObj[key])))
+
+        fetch(url)
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json()
+        })
+        .then( json => {
+            dispatch(interpretSearchResult(json))
         }).catch(error =>
             console.log(error)
         )
