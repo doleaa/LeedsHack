@@ -1,9 +1,9 @@
 h1 {
-font-size:9rem;
-font-family: 'Kaushan Script', cursive;
+font-size:6rem;
+font-family: 'Do Hyeon', sans-serif;
 font-weight:800;
 letter-spacing: -0.75rem;
-color:beige;
+color:#222222;
 text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
 }
 
@@ -14,9 +14,9 @@ h1 span{
 h2 {
     margin-top:31%;
     font-size:4rem;
-    font-family: 'Kaushan Script', cursive;
+    font-family: 'Do Hyeon', sans-serif;
     font-weight:800;
     letter-spacing: -0.5rem;
-    color:beige;
+    color:#4894FA;
     text-shadow: 5px 2px 2px rgba(150, 150, 150, 1);
 }

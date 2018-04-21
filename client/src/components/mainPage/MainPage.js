@@ -9,15 +9,14 @@ const mapDispatchToProps = dispatch => {
             dispatch(setSearchType(searchType))
         }
     }
-}
+};
 
 const DisconnectedMainPage = ({ setSearchType }) => (
-    <div className="row">
-      <div className="col-md-6 box left" onClick={() => setSearchType("single")}></div>
-      <div className="col-md-6 box right" onClick={() => setSearchType("group")}></div>
+    <div className="row-xs-12">
+      <div className="col-xs-12 box left" onClick={() => setSearchType("single")}></div>
     </div>
-)
+);
 
-const MainPage = connect(null, mapDispatchToProps)(DisconnectedMainPage)
+const MainPage = connect(null, mapDispatchToProps)(DisconnectedMainPage);
 
 export default MainPage
