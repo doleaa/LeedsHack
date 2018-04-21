@@ -12,7 +12,7 @@ export const pingServer = (userName, password) => {
             usr: userName,
             pwd: password
         }
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+        Object.keys(params).forEach(key => url.searchParams.append(key, encodeURI(params[key])))
 
         fetch(url)
         .then(response => {
