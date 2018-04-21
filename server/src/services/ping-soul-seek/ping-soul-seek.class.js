@@ -16,14 +16,13 @@ class Service {
         if (!error) {
           client = response
           client.search({
-            req: 'bicep',
-            timeout: 4000
+            req: 'bicep'
           }, (clientSearchError,clientSearchRespone) => {
             if (!clientSearchError) {
               console.dir(clientSearchRespone)
               client.download({
-                file: clientSearchRespone[0]
-                // path: "/Users/alex/TUOM/leedsHack/LeedsHack/server" + '/random.mp3'
+                file: clientSearchRespone[0],
+                path: "/Users/alex/TUOM/leedsHack/LeedsHack/server" + '/random.mp3'
               }, (clientDownloadError, data) => {
                 if(!clientDownloadError) {
                   resolve(data.buffer)
