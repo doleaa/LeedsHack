@@ -6,12 +6,12 @@ import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
-import greatUniApp from './reducers'
+import ourApp from './reducers'
 
 const loggerMiddleware = createLogger()
 
 let store = createStore(
-    greatUniApp,
+    ourApp,
     applyMiddleware(
         thunkMiddleware,
         loggerMiddleware

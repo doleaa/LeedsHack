@@ -17,19 +17,17 @@ const mapStateToProps = state => {
 }
 
 const DisconnectedApp = ({ searchType, response }) => {
-    if (searchType === "") {
-        return (
-            <div className="container">
+    return (
+        <div className="container">
 
-                <Header/>
+            <Header/>
 
-                <MainPage/>
+            <MainPage/>
 
-                <Footer/>
+            <Footer/>
 
-            </div>
-        )
-    }
+        </div>
+    )
 
     if (searchType === "single" && response instanceof Array) {
         return (
