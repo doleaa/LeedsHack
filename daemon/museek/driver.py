@@ -149,12 +149,12 @@ class Driver:
 
     # Fetch and process a message from museekd
     def process(self, message=None):
+        if not self.socket:
+            return
         if message is None:
             message = self.fetch()
             if not message:
                 return
-        if not self.socket:
-            return
 
         # TODO: swap this for a dictionary
         if message.__class__ is messages.Ping:
@@ -453,7 +453,7 @@ class Driver:
     def cb_search_results(self, ticket, user, free, speed, queue, results):
         pass
 
-    def cb_wishlist_add(self, query, last_searched):
+    def cb_wishlist_add(self, query, lastSearched):
         pass
 
     def cb_wishlist_remove(self, query):
