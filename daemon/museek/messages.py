@@ -54,7 +54,7 @@ def pack_int(i):
 
 
 def pack_string(s):
-    return pack_int(len(s)) + s.encode("ascii")
+    return pack_int(len(s)) + s.encode()
 
 
 class BaseMessage:
