@@ -1,19 +1,14 @@
 import React from 'react'
 import './MainPage.css'
-import { setSearchType } from './../../actions'
 import { connect } from 'react-redux'
 
 const mapDispatchToProps = dispatch => {
-    return {
-        setSearchType: searchType => {
-            dispatch(setSearchType(searchType))
-        }
-    }
+    return {}
 };
 
-const DisconnectedMainPage = ({ setSearchType }) => (
+const DisconnectedMainPage = ({}) => (
     <div className="row-xs-12">
-      <div className="col-xs-12 box left" onClick={() => setSearchType("single")}></div>
+      <div className="col-xs-12 box left" onClick={() => {}}></div>
     </div>
 );
 
