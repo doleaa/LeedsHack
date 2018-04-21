@@ -66,7 +66,7 @@ for _message in dir(messages):
 class Driver:
     def __init__(self, callback=None):
         self.socket = None
-        self.connected = False
+        self.is_connected = False
         self.logged_in = False
         self.password = None
         self.mask = None
@@ -83,42 +83,35 @@ class Driver:
         try:
             self.socket.connect(host)
             print(f"Connected to {host}")
+            self.is_connected = True
         except Exception as e:
             self.socket = None
             raise e
 
+    def disconnect(self):
+        self.socket.shutdown(socket.SHUT_RDWR)
+        self.socket.close()
+
     # Fetch and parse a message from museekd, blocks until an entire message is read
     def fetch(self):
         # Unpack the first 8 bytes of the message
-        data = ""
-        while len(data) < 8:
-            buf = self.socket.recv(8 - len(data))
-            if not buf:
-                self.cb_disconnected()
-                self.socket = None
-                return
-            data += buf
+        data_chunks = self.receive_data(8)
 
         # First 4 bytes are the length
-        length = struct.unpack("<i", data[:4])[0]
+        length = struct.unpack("<i", data_chunks[:4])[0]
 
         if length < 4:
             raise InvalidMessageException('received invalid message length (%i)' % length)
+
         # Second 4 bytes are the message code
-        code = struct.unpack("<I", data[4:])[0]
+        code = struct.unpack("<I", data_chunks[4:])[0]
         # If message is longer than it's code, unpack all data
 
-        data = ''
+        data_chunks = []
+        bytes_recd = 0
         if length > 4:
             length -= 4
-            while len(data) < length:
-                recv = self.socket.recv(length - len(data))
-                if not recv:
-                    self.cb_disconnected()
-                    self.socket = None
-                    return
-
-                data += recv
+            data_chunks.extend(self.receive_data(length))
 
         # If message doesn't match known messages, raise an error
         if code not in MSGTAB:
@@ -127,12 +120,23 @@ class Driver:
         m = MSGTAB[code]()
         m.cipher = self.cipher
         try:
-            newmessage = m.parse(data)
+            newmessage = m.parse(data_chunks)
         except Exception as e:
             self.pass_error(e)
             return None
         else:
             return newmessage
+
+    def receive_data(self, length):
+        data_chunks = []
+        bytes_recd = 0
+        while bytes_recd < length:
+            chunk = self.socket.recv(length - bytes_recd)
+            if chunk == b'':
+                raise RuntimeError("socket connection broken")
+            data_chunks.append(chunk)
+            bytes_recd += len(chunk)
+        return data_chunks
 
     def pass_error(self, error_message):
         if self.callback is not None:
@@ -143,9 +147,6 @@ class Driver:
         message.cipher = self.cipher
         data = message.make()
         self.socket.send(message.pack_int(len(data)) + data)
-
-    def close(self):
-        self.socket.shutdown(1)
 
     # Fetch and process a message from museekd
     def process(self, message=None):
@@ -160,7 +161,7 @@ class Driver:
         if message.__class__ is messages.Ping:
             self.cb_ping()
         elif message.__class__ is messages.Challenge:
-            chresp = sha256Block(message.challenge + self.password).hexdigest()
+            chresp = sha256Block(message.challenge + self.password.encode()).hexdigest()
             self.send(messages.Login("SHA256", chresp, self.mask))
         elif message.__class__ is messages.Login:
             self.logged_in = message.result
@@ -299,6 +300,46 @@ class Driver:
                 break
             elif not ignore:
                 self.process(message)
+
+    @staticmethod
+    def display_shares(username, shares):
+        browse_number = 0
+        files_in_shares = 0
+        for dirs, files in shares.items():
+            for _ in files.keys():
+                files_in_shares += 1
+        len_shares = len(str(files_in_shares + 1))
+        for dirs, files in shares.items():
+            for filez, stats in files.items():
+                browse_number += 1
+
+                size = str(stats[0] / 1024) + "KB"
+                ftype = stats[1]
+                if ftype == '':
+                    ftype = "None"
+                    length = "00:00"
+                    bitrate = 'None'
+                else:
+                    bitrate = str(stats[2][0])
+                    if bitrate == '':
+                        bitrate = 'None'
+                    length = str(stats[2][1])
+                    if length != '' and length is not None:
+                        minutes = int(length) / 60
+                        seconds = str(int(length) - (60 * minutes))
+                        if len(seconds) < 2:
+                            seconds = '0' + seconds
+                        length = str(minutes) + ":" + str(seconds)
+                    else:
+                        length = "00:00"
+
+                filename = dirs + "\\" + filez
+                number = " " * (len_shares - len(str(browse_number))) + str(browse_number)
+
+                if ftype in ("mp3", "ogg", "MP3", "OGG"):
+                    print(f"[{number}] Size: {size} slsk://{username}/{filename}  Length: {length} Bitrate: {bitrate}")
+                else:
+                    print(f"[{number}] Size: {size} slsk://{username}/{filename}  Filetype {ftype}")
 
     def cb_disconnected(self):
         pass
@@ -453,7 +494,7 @@ class Driver:
     def cb_search_results(self, ticket, user, free, speed, queue, results):
         pass
 
-    def cb_wishlist_add(self, query, lastSearched):
+    def cb_wishlist_add(self, query, last_searched):
         pass
 
     def cb_wishlist_remove(self, query):
