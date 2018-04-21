@@ -1,3 +1,5 @@
+const slsk = require('slsk-client')
+
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
@@ -5,7 +7,33 @@ class Service {
   }
 
   async find (params) {
-    return "HURRAY";
+    return new Promise((resolve, reject) => {
+      slsk.connect({
+        user:"troliator96",
+        pass:"troliator96"
+      }, (error, response) => {
+        let client
+        if (!error) {
+          client = response
+          client.search({
+            req: 'bicep',
+            timeout: 4000
+          }, (clientSearchError,clientSearchRespone) => {
+            if (!clientSearchError) {
+              console.dir(clientSearchRespone)
+              client.download({
+                file: clientSearchRespone[0]
+                // path: "/Users/alex/TUOM/leedsHack/LeedsHack/server" + '/random.mp3'
+              }, (clientDownloadError, data) => {
+                if(!clientDownloadError) {
+                  resolve(data.buffer)
+                }
+              })
+            }
+          })
+        }
+      })
+    })
   }
 
   async get (id, params) {
