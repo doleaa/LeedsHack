@@ -1,4 +1,5 @@
 const slsk = require('slsk-client')
+const request = require('request')
 
 /* eslint-disable no-unused-vars */
 class Service {
