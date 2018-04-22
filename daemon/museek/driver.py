@@ -21,7 +21,7 @@ import socket
 import struct
 
 from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
+from Crypto.Hash import SHA256, SHA
 
 from museek import messages
 
@@ -38,9 +38,6 @@ class Cipher:
         while len(block) % 16:
             block += chr(random.randint(0, 255))
         return self.ctx.encrypt(block)
-
-
-sha256Block = SHA256.new
 
 
 class InvalidHostException(Exception):
@@ -107,15 +104,15 @@ class Driver:
         code = struct.unpack("<I", data_chunks[4:])[0]
         # If message is longer than it's code, unpack all data
 
-        data_chunks = []
+        data_chunks = "".encode()
         bytes_recd = 0
         if length > 4:
             length -= 4
-            data_chunks.extend(self.receive_data(length))
+            data_chunks += self.receive_data(length)
 
         # If message doesn't match known messages, raise an error
         if code not in MSGTAB:
-            raise UnknownMessageException('received unknown message tyoe 0x%04X' % code)
+            raise UnknownMessageException('received unknown message type 0x%04X' % code)
         # Parse message with the message's class parse function
         m = MSGTAB[code]()
         m.cipher = self.cipher
@@ -128,13 +125,13 @@ class Driver:
             return newmessage
 
     def receive_data(self, length):
-        data_chunks = []
+        data_chunks = "".encode()
         bytes_recd = 0
         while bytes_recd < length:
             chunk = self.socket.recv(length - bytes_recd)
             if chunk == b'':
                 raise RuntimeError("socket connection broken")
-            data_chunks.append(chunk)
+            data_chunks += chunk
             bytes_recd += len(chunk)
         return data_chunks
 
@@ -146,7 +143,8 @@ class Driver:
     def send(self, message):
         message.cipher = self.cipher
         data = message.make()
-        self.socket.send(message.pack_int(len(data)) + data)
+        packet = message.pack_int(len(data)) + data
+        self.socket.sendall(packet)
 
     # Fetch and process a message from museekd
     def process(self, message=None):
@@ -161,8 +159,8 @@ class Driver:
         if message.__class__ is messages.Ping:
             self.cb_ping()
         elif message.__class__ is messages.Challenge:
-            chresp = sha256Block(message.challenge + self.password.encode()).hexdigest()
-            self.send(messages.Login("SHA256", chresp, self.mask))
+            chresp = SHA.new(message.challenge + "Angel1995".encode()).hexdigest()
+            self.send(messages.Login("SHA1", chresp, self.mask))
         elif message.__class__ is messages.Login:
             self.logged_in = message.result
             if not self.logged_in:
@@ -315,7 +313,7 @@ class Driver:
 
                 size = str(stats[0] / 1024) + "KB"
                 ftype = stats[1]
-                if ftype == '':
+                if ftype == b'':
                     ftype = "None"
                     length = "00:00"
                     bitrate = 'None'
