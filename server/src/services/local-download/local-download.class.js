@@ -1,4 +1,5 @@
 const slsk = require('slsk-client')
+const streamToBuffer = require('stream-to-buffer')
 
 /* eslint-disable no-unused-vars */
 class Service {
@@ -38,13 +39,14 @@ class Service {
             timeout: 2000
           }, (err, response) => {
             response = [songObj]
-            client.download({
+            client.downloadStream({
               file: response[0]
-            }, (dowloadError, data) => {
+            }, async (dowloadError, stream) => {
               if (dowloadError) {
                 reject(new Error())
               } else {
-                resolve(data.buffer)
+                // let buffer = await streamToBuffer(stream)
+                resolve(stream)
               }
             })
           })
