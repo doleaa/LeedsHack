@@ -1,5 +1,6 @@
 const slsk = require('slsk-client')
 const streamToBuffer = require('stream-to-buffer')
+const toArray = require('stream-to-array')
 
 /* eslint-disable no-unused-vars */
 class Service {
@@ -35,18 +36,17 @@ class Service {
           const client = response
 
           client.search({
-            req: "random",
+            req: "avicii",
             timeout: 2000
           }, (err, response) => {
             response = [songObj]
-            client.downloadStream({
+            client.download({
               file: response[0]
-            }, async (dowloadError, stream) => {
+            }, (dowloadError, data) => {
               if (dowloadError) {
                 reject(new Error())
               } else {
-                // let buffer = await streamToBuffer(stream)
-                resolve(stream)
+                resolve(data.buffer)
               }
             })
           })
