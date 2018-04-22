@@ -3,6 +3,8 @@ import time
 
 from urllib.parse import unquote
 
+import threading
+
 from museek.museekdriver import DownloadDriver
 
 config_dir = str(os.path.expanduser("~/.museekd/"))
@@ -21,14 +23,21 @@ source_filepath = unquote("%40%40sgkmi%5CSS'16%5Ccomplete%5CBicep%20-%20Bicep%20
 
 # "//home/guibog/sync/zic/Mixin/Drame01%7E144%7EHudson%20Mohawke%7EChimes.mp3"
 
-class Daemon:
+class Daemon(threading.Thread):
     def __init__(self):
+        super().__init__()
         self.driver = DownloadDriver()
 
         self.driver.connect(host, password, 1 | 2 | 4 | 8 | 16 | 32 | 64)
         time.sleep(1)
 
-    def start(self):
+    def add_task(self, *args):
+        self.driver.add_task(*args)
+
+    def stop(self):
+        self.driver.disconnect()
+
+    def run(self):
         while self.driver.is_connected:
             self.driver.process()
             time.sleep(3)

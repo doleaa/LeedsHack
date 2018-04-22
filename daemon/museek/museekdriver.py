@@ -12,13 +12,13 @@ class DownloadDriver(driver.Driver):
         super().__init__()
         self.is_connected = False
         self.tasks = deque()
-
         self.states = {0: "Finished", 1: "Transferring", 2: "Negotiating", 3: "Waiting", 4: "Establishing",
                        5: "Initiating", 6: "Connecting", 7: "Queued", 8: "Address", 9: "Status", 10: "Offline",
                        11: "Closed", 12: "Can't Connect", 13: "Aborted", 14: "Not Shared"}
 
     def add_task(self, task):
         self.tasks.append(task)
+        print(f"Added {task} to the task queue")
 
     def process(self, **kwargs):
         r, w, x = select.select([self.socket, sys.stdin], [], [self.socket], 1)
@@ -30,24 +30,30 @@ class DownloadDriver(driver.Driver):
         elif len(self.tasks) > 0:
             task, args = self.tasks.pop()
             if task == "user_shares":
-                self.get_user_shares(*args)
+                self._get_user_shares(*args)
             elif task == "download_file":
-                self.download_file(*args)
+                self._download_file(*args)
+            elif task == "download_folder":
+                self._download_folder(*args)
+            else:
+                print("[{task}] not recognized as a task")
 
-    def get_user_shares(self, source_user):
+    def _get_user_shares(self, source_user):
         self.send(messages.UserShares(source_user))
+        print(f"getting shares for {source_user}")
 
-    def download_file(self, source_user, source_filepath):
+    def _download_file(self, source_user, source_filepath):
         self.send(messages.DownloadFile(source_user, source_filepath))
+        print(f"Downloading {source_filepath}")
 
-    def download_folder(self, source_user, source_filepath):
+    def _download_folder(self, source_user, source_filepath):
         self.send(messages.GetFolderContents(source_user, source_filepath))
 
-    def abort_download(self, source_user, source_filepath):
+    def _abort_download(self, source_user, source_filepath):
         self.send(messages.TransferAbort(0, source_user, source_filepath))  # d
         time.sleep(1)
 
-    def remove_download(self, source_user, source_filepath):
+    def _remove_download(self, source_user, source_filepath):
         self.send(messages.TransferRemove(0, source_user, source_filepath))
         time.sleep(1)
 

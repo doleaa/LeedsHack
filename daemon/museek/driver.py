@@ -112,7 +112,7 @@ class Driver:
 
         # If message doesn't match known messages, raise an error
         if code not in MSGTAB:
-            raise UnknownMessageException('received unknown message tyoe 0x%04X' % code)
+            raise UnknownMessageException('received unknown message type 0x%04X' % code)
         # Parse message with the message's class parse function
         m = MSGTAB[code]()
         m.cipher = self.cipher
