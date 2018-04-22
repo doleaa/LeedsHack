@@ -12,6 +12,11 @@ class DownloadDriver(driver.Driver):
         super().__init__()
         self.is_connected = False
         self.tasks = deque()
+        self.task_cases = {
+            "user_shares": self._get_user_shares,
+            "download_file": self._download_file,
+            "download_folder": self._download_folder
+        }
         self.states = {0: "Finished", 1: "Transferring", 2: "Negotiating", 3: "Waiting", 4: "Establishing",
                        5: "Initiating", 6: "Connecting", 7: "Queued", 8: "Address", 9: "Status", 10: "Offline",
                        11: "Closed", 12: "Can't Connect", 13: "Aborted", 14: "Not Shared"}
@@ -29,12 +34,8 @@ class DownloadDriver(driver.Driver):
             print("Disconnected from socket")
         elif len(self.tasks) > 0:
             task, args = self.tasks.pop()
-            if task == "user_shares":
-                self._get_user_shares(*args)
-            elif task == "download_file":
-                self._download_file(*args)
-            elif task == "download_folder":
-                self._download_folder(*args)
+            if task in self.task_cases:
+                self.task_cases[task](*args)
             else:
                 print("[{task}] not recognized as a task")
 

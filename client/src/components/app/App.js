@@ -18,8 +18,9 @@ const DisconnectedApp = ({ creds }) => {
             <div className="container">
                 <Header/>
 
+                <div className="left box">
                 <LoginForm/>
-
+                </div>
                 <Footer/>
             </div>
         )
@@ -30,7 +31,6 @@ const DisconnectedApp = ({ creds }) => {
 
                 <MainPage/>
 
-                <Footer/>
             </div>
         )
     }

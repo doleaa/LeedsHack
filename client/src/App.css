@@ -29,14 +29,6 @@
 }
 
 
-
-.box{
-
-margin-top:3%;
-height:500px;
-}
-
-
 .left{
 position:relative;
 background-image: url("img/record.jpg");
@@ -44,16 +36,6 @@ z-index:1;
 background-size:cover;
 border-top-left-radius:9px;
 border-bottom-left-radius:9px;
-
-}
-
-.right{
-position:relative;
-background-image: url("img/record.jpg");
-z-index:1;
-background-size:cover;
-border-top-right-radius:9px;
-border-bottom-right-radius:9px;
 
 }
 

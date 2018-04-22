@@ -26,6 +26,21 @@ export const interpretSearchResult = result => {
     }
 }
 
+export const clearSearchResult = () => {
+    return {
+        type: "CLEAR_SEARCH_RESULT"
+    }
+}
+
+export const updateSongSearch = (str) => {
+    return {
+        type: "UPDATE_SONG_SEARCH",
+        data: str
+    }
+}
+
+
+
 export const pingServer = (userName, password) => {
     return dispatch => {
         let url = new URL("http://127.0.0.1:3030/ping")
