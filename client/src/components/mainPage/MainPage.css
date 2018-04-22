@@ -6,7 +6,9 @@
     position:relative;
     background-image: url("../../img/record.jpg");
     z-index:1;
+    background-position: center;
     background-size:cover;
+    background-repeat: no-repeat;
     border-top-left-radius:9px;
     border-bottom-left-radius:9px;
     -webkit-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
@@ -18,18 +20,41 @@
         transition: -webkit-transform 1s ease-in-out;
 }
 
-.left:hover {
-    -webkit-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
-    -moz-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
-    box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);
-    transition: -webkit-box-shadow 3s ease-in-out;
-    transition: -moz-box-shadow 1s ease-in-out;
-    transition: box-shadow 1s ease-in-out;
-    transition: -webkit-transform 1s ease-in-out;
-    -webkit-transform: translateY(20px);
-    transform: translateY(20px);
-    z-index:0;
+.container {
+    position: relative;
 }
+
+/* Style the button and place it in the middle of the container/image */
+.container .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, +50%);
+    -ms-transform: translate(-50%, +50%);
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+    padding: 6px 80px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.container .btn:hover {
+    background-color: black;
+}
+/*.left:hover {*/
+    /*-webkit-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);*/
+    /*-moz-box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);*/
+    /*box-shadow: 9px 9px 22px 0px rgba(0,0,0,0.52);*/
+    /*transition: -webkit-box-shadow 3s ease-in-out;*/
+    /*transition: -moz-box-shadow 1s ease-in-out;*/
+    /*transition: box-shadow 1s ease-in-out;*/
+    /*transition: -webkit-transform 1s ease-in-out;*/
+    /*!*-webkit-transform: translateX(-10px);*!*/
+    /*!*transform: translateX(-10px);*!*/
+    /*z-index:0;*/
+/*}*/
 
 .right{
     position:relative;
