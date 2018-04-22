@@ -17,12 +17,12 @@ class Service {
         if (!error) {
           client = response
           client.search({
-            req: 'bicep',
+            req: "avicii",
             timeout:2000
           }, (clientSearchError,clientSearchRespone) => {
             if (!clientSearchError) {
               clientSearchRespone = clientSearchRespone
-                .filter(file => file.size < 4000000 && file.file.endsWith("mp3") && file.slots && file.speed !== 0)
+                .filter(file => file.size < 4000000 && file.file.endsWith("mp3") && file.slots && file.speed > 0)
               
               if (Array.isArray(clientSearchRespone) && clientSearchRespone.length > 0) {
                 console.dir(clientSearchRespone[0])
@@ -30,8 +30,14 @@ class Service {
                 songFile.file = encodeURIComponent(songFile.file)
                 request.post(
                   {headers: {'content-type' : 'application/json'}, 
-                  url:"http://127.0.0.1:3040/download?usr=troliator96&pwd=troliator96", 
+                  url:"https://4c9b11b8.ngrok.io/download", 
                   json: songFile
+                }, (err, response) => {
+                  if (err) {
+                    console.dir(err)
+                    reject(new Error())
+                  }
+                  resolve()
                 })
               }
               
