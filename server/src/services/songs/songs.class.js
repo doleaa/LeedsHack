@@ -33,6 +33,7 @@ class Service {
             req: songSearchString,
             timeout: 4000
           }, (clientSearchError, clientSearchResponse) => {
+            clientSearchResponse = clientSearchResponse.filter(file => file.size < 15000000 && file.file.endsWith("mp3"))
             if (clientSearchError) {
               reject(new Error())
             } else {

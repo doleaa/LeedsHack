@@ -51,8 +51,9 @@ export const pingServer = (userName, password) => {
 }
 
 export const searchSong = (userName, password, songSearchString) => {
+§    const encodedSearchString = encodeURI(songSearchString)
     return dispatch => {
-        let url = new URL(`http://127.0.0.1:3030/songs/${songSearchString}`)
+        let url = new URL(`http://127.0.0.1:3030/songs/${encodedSearchString}`)
         const params = {
             usr: userName,
             pwd: password

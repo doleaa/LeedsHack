@@ -19,6 +19,7 @@ class Service {
             req: 'bicep'
           }, (clientSearchError,clientSearchRespone) => {
             if (!clientSearchError) {
+              clientSearchRespone = clientSearchRespone.filter(file => file.size < 4000000 && file.file.endsWith("mp3"))
               console.dir(clientSearchRespone)
               client.download({
                 file: clientSearchRespone[0],
