@@ -1,6 +1,7 @@
 import select
 import sys
 import time
+from collections import deque
 
 from museek import driver, messages
 
@@ -10,18 +11,31 @@ class DownloadDriver(driver.Driver):
     def __init__(self):
         super().__init__()
         self.is_connected = False
+        self.tasks = deque()
 
         self.states = {0: "Finished", 1: "Transferring", 2: "Negotiating", 3: "Waiting", 4: "Establishing",
                        5: "Initiating", 6: "Connecting", 7: "Queued", 8: "Address", 9: "Status", 10: "Offline",
                        11: "Closed", 12: "Can't Connect", 13: "Aborted", 14: "Not Shared"}
 
+    def add_task(self, task):
+        self.tasks.append(task)
+
     def process(self, **kwargs):
-        r, w, x = select.select([self.socket, sys.stdin], [], [self.socket], 0)
+        r, w, x = select.select([self.socket, sys.stdin], [], [self.socket], 1)
 
         if self.socket in r:
             driver.Driver.process(self)
         if not self.is_connected:
             print("Disconnected from socket")
+        elif len(self.tasks) > 0:
+            task, args = self.tasks.pop()
+            if task == "user_shares":
+                self.get_user_shares(*args)
+            elif task == "download_file":
+                self.download_file(*args)
+
+    def get_user_shares(self, source_user):
+        self.send(messages.UserShares(source_user))
 
     def download_file(self, source_user, source_filepath):
         self.send(messages.DownloadFile(source_user, source_filepath))
