@@ -18,7 +18,7 @@ class Service {
       const pass = params.query.pwd
       let songObj = {}
       songObj.bitrate = params.query.bitrate
-      songObj.file = params.query.file
+      songObj.file = encodeURIComponent(params.query.file)
       songObj.size = params.query.size
       songObj.slots = params.query.slots
       songObj.speed = params.query.speed
@@ -32,18 +32,21 @@ class Service {
           reject(new Error())
         } else {
           const client = response
-          
-          songObj.file = encodeURIComponent(songObj.file)
-          request.post(
-            {headers: {'content-type' : 'application/json'}, 
-            url:"https://4c9b11b8.ngrok.io/download", 
-            json: songObj
+
+          client.search({
+            req: "random",
+            timeout: 2000
           }, (err, response) => {
-            if (err) {
-              console.dir(err)
-              reject(new Error())
-            }
-            resolve()
+            response = [songObj]
+            client.download({
+              file: response[0]
+            }, (dowloadError, data) => {
+              if (dowloadError) {
+                reject(new Error())
+              } else {
+                resolve(data.buffer)
+              }
+            })
           })
         }
       })
