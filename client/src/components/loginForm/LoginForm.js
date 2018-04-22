@@ -1,6 +1,9 @@
 import React from 'react'
 import Editor from './../editor/Editor'
-import {setLoginUserName, setLoginPassword} from './../../actions'
+import ExecutionButtons from './../executionButtons/ExecutionButtons'
+import { setLoginUserName,
+        setLoginPassword,
+        pingServer } from './../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = state => {
@@ -13,17 +16,19 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setLoginPassword: password => { dispatch(setLoginPassword(password)) },
-        setLoginUserName: userName => { dispatch(setLoginUserName(userName)) }
+        setLoginUserName: userName => { dispatch(setLoginUserName(userName)) },
+        pingServer: (userName, password) => { dispatch(pingServer(userName, password)) }
     }
 }
 
-const DisconnectedLoginForm = ({userName, password, setLoginUserName, setLoginPassword}) => {
+const DisconnectedLoginForm = ({userName, password, setLoginUserName, setLoginPassword, pingServer}) => {
     const updateUserName = event => {
         setLoginUserName(event.target.value)
     }
     const updatePassword = event => {
         setLoginPassword(event.target.value)
     }
+    const login = () => { pingServer(userName, password) }
 
     return (
         <div className='row'>
@@ -38,6 +43,10 @@ const DisconnectedLoginForm = ({userName, password, setLoginUserName, setLoginPa
                 initialValue={password}
                 updateValue={updatePassword}
                 placeholder="Password"
+            />
+            <ExecutionButtons
+                execute={login}
+                name={"Login"}
             />
         </div>
     )

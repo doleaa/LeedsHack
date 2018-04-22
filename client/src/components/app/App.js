@@ -13,18 +13,27 @@ const mapStateToProps = state => {
 }
 
 const DisconnectedApp = ({ creds }) => {
-    return (
-        <div className="container">
+    if (!(creds.user && creds.pwd)) {
+        return (
+            <div className="container">
+                <Header/>
 
-            <Header/>
+                <LoginForm/>
 
-            <LoginForm/>
-            <MainPage/>
+                <Footer/>
+            </div>
+        )
+    } else {
+        return (
+            <div className="container">
+                <Header/>
 
-            <Footer/>
+                <MainPage/>
 
-        </div>
-    )
+                <Footer/>
+            </div>
+        )
+    }
 }
 
 const App = connect(mapStateToProps)(DisconnectedApp)
