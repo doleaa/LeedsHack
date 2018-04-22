@@ -1,4 +1,5 @@
 const slsk = require('slsk-client')
+const request = require('request')
 
 /* eslint-disable no-unused-vars */
 class Service {
@@ -16,19 +17,34 @@ class Service {
         if (!error) {
           client = response
           client.search({
-            req: 'bicep'
+            req: 'bicep',
+            timeout:2000
           }, (clientSearchError,clientSearchRespone) => {
             if (!clientSearchError) {
-              clientSearchRespone = clientSearchRespone.filter(file => file.size < 4000000 && file.file.endsWith("mp3"))
-              console.dir(clientSearchRespone)
-              client.download({
-                file: clientSearchRespone[0],
-                path: "/Users/alex/TUOM/leedsHack/LeedsHack/server" + '/random.mp3'
-              }, (clientDownloadError, data) => {
-                if(!clientDownloadError) {
-                  resolve(data.buffer)
-                }
-              })
+              clientSearchRespone = clientSearchRespone
+                .filter(file => file.size < 4000000 && file.file.endsWith("mp3") && file.slots && file.speed !== 0)
+              
+              if (Array.isArray(clientSearchRespone) && clientSearchRespone.length > 0) {
+                console.dir(clientSearchRespone[0])
+                let songFile = clientSearchRespone[0]
+                songFile.file = encodeURIComponent(songFile.file)
+                request.post(
+                  {headers: {'content-type' : 'application/json'}, 
+                  url:"http://127.0.0.1:3040/download?usr=troliator96&pwd=troliator96", 
+                  json: songFile
+                })
+              }
+              
+              // if (Array.isArray(clientSearchRespone) && clientSearchRespone.length > 0) {
+              //   client.download({
+              //     file: clientSearchRespone[0],
+              //     path: "/Users/alex/TUOM/leedsHack/LeedsHack/server" + '/random.mp3'
+              //   }, (clientDownloadError, data) => {
+              //     if(!clientDownloadError) {
+              //       resolve(data.buffer)
+              //     }
+              //   })
+              // }
             }
           })
         }

@@ -11,15 +11,21 @@ class Service {
   }
 
   async get (id, params) {
+    return {
+      id, text: `A new message with ID: ${id}!`
+    };
+  }
+
+  async create (data, params) {
     return new Promise((resolve, reject) => {
       if (!(params.query.usr && params.query.pwd)) {
         reject(new Error())
       }
   
-      const songSearchString = id
-      const user = params.query.usr ? params.query.usr : ""
-      const pass = params.query.pwd ? params.query.pwd : ""
-      
+      const user = params.query.usr
+      const pass = params.query.pwd
+      const songObj = data
+
       slsk.connect({
         user,
         pass
@@ -27,34 +33,20 @@ class Service {
         if (error) {
           reject(new Error())
         } else {
-          let client = response
-
-          client.search({
-            req: songSearchString,
-            timeout: 4000
-          }, (clientSearchError, clientSearchResponse) => {
-            clientSearchResponse = clientSearchResponse.filter(file => file.size < 15000000 && file.file.endsWith("mp3") && file.slots && file.speed !== 0 && file.user === "carlosromanos")
-            if (clientSearchError) {
+          const client = response
+          client.download({
+            file: songObj,
+            path: "/tmp/nuseekSongs" + '/' + songObj.file +'.mp3'
+          }, (dowloadError, data) => {
+            if (dowloadError) {
               reject(new Error())
             } else {
-              resolve(clientSearchResponse)
+              resolve()
             }
           })
         }
       })
     })
-    
-    return {
-      id, text: `A new message with ID: ${id}!`
-    };
-  }
-
-  async create (data, params) {
-    if (Array.isArray(data)) {
-      return await Promise.all(data.map(current => this.create(current)));
-    }
-
-    return data;
   }
 
   async update (id, data, params) {
