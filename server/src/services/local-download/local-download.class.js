@@ -1,6 +1,7 @@
 const slsk = require('slsk-client')
 const streamToBuffer = require('stream-to-buffer')
 const toArray = require('stream-to-array')
+const request = require('request')
 
 /* eslint-disable no-unused-vars */
 class Service {
