@@ -1,0 +1,22 @@
+.mousable:hover {
+    border-right: solid;
+    border-right-width: 3px;
+    border-color: blue;
+}
+
+.execution-date {
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.query-preview {
+    height: 100%;
+    border-left: solid;
+    border-left-width: 1.5px;
+    border-color: black;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+}

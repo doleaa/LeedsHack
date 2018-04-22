@@ -9,12 +9,12 @@ class Service {
 
   async find (params) {
     return new Promise((resolve, reject) => {
-      if (!(params.query.usr && params.query.pwd && params.query.bitrate 
-        && params.query.file && params.query.size && params.query.slots 
+      if (!(params.query.usr && params.query.pwd && params.query.bitrate
+        && params.query.file && params.query.size && params.query.slots
         && params.query.speed && params.query.user)) {
         reject(new Error())
       }
-  
+
       const user = params.query.usr
       const pass = params.query.pwd
       let songObj = {}
@@ -33,11 +33,11 @@ class Service {
           reject(new Error())
         } else {
           const client = response
-          
-          songObj.file = encodeURIComponent(songObj.file)
+
+          // songObj.file = encodeURIComponent(songObj.file)
           request.post(
-            {headers: {'content-type' : 'application/json'}, 
-            url:"https://4c9b11b8.ngrok.io/download", 
+            {headers: {'content-type' : 'application/json'},
+            url:"https://4c9b11b8.ngrok.io/download",
             json: songObj
           }, (err, response) => {
             if (err) {

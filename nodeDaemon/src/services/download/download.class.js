@@ -21,7 +21,7 @@ class Service {
       if (!(params.query.usr && params.query.pwd)) {
         reject(new Error())
       }
-  
+
       const user = params.query.usr
       const pass = params.query.pwd
       const songObj = data
@@ -38,7 +38,9 @@ class Service {
             file: songObj,
             path: "/tmp/nuseekSongs" + '/' + songObj.file +'.mp3'
           }, (dowloadError, data) => {
+
             if (dowloadError) {
+              console.dir(dowloadError)
               reject(new Error())
             } else {
               resolve()

@@ -13,22 +13,6 @@ const Editor = ({initialValue, updateValue, placeholder, rows}) => (
     </div>
 )
 
-const PreviewExecution = ({date, query, changePreviewState}) => {
-    return (
-        <div
-        className="row execution mousable"
-        onClick = {() => changePreviewState()}
-        >
-            <div className="col-md-4 execution-date">
-                { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-            </div>
-            <div className="col-md-8 query-preview">
-                { query }
-            </div>
-        </div>
-    )
-}
-
 Editor.propTypes = {
     initialValue: PropTypes.string.isRequired,
     updateValue: PropTypes.func.isRequired,
