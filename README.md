@@ -2,7 +2,7 @@
 
 A new way to interact with the soulseek protocol that provides users the ability host their own music server connected to the soulseek network.
 
-# Note:
+**Note:**
 This is still in very early development and requires knowledge of nodejs / react / python to be used effectively
 
 
